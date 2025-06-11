@@ -8,7 +8,6 @@ function log(message){console.log(message);}
 export function App(params) {
   let blankCustomer = { "id": -1, "name": "", "email": "", "password": "" };
   const [customers, setCustomers] = useState([]);
-  //let formObject = customers[0];
   const [formObject, setFormObject] = useState(blankCustomer);
   let mode = (formObject.id >= 0) ? 'Update' : 'Add';
   useEffect(() => { getCustomers() }, []);
@@ -29,8 +28,17 @@ export function App(params) {
     log("in handleListClick()");
   }  
 
-  const handleInputChange = function (event) {
+/* const handleInputChange = function (event) {
     log("in handleInputChange()");
+  }
+*/
+const handleInputChange = function (event) {
+    log("in handleInputChange()");
+    const name = event.target.name;
+    const value = event.target.value;
+    let newFormObject = {...formObject}
+    newFormObject[name] = value;
+    setFormObject(newFormObject);
   }
 
   let onCancelClick = function () {
@@ -43,8 +51,14 @@ export function App(params) {
   }
 
   let onSaveClick = function () {
-    log("in onSaveClick()");
-  }
+     log("in onSaveClick()");
+    if(formObject.id >= 0){
+      deleteById(formObject.id);
+    }
+      setFormObject(blankCustomer);
+    }
+   
+  
 
   return (
     <div>
@@ -86,6 +100,7 @@ export function App(params) {
               <td><input
                 type="text"
                 name="name"
+                onChange={(e) => handleInputChange(e)}
                 value={formObject.name}
                 placeholder="Customer Name"
                 required /></td>
@@ -95,6 +110,7 @@ export function App(params) {
               <td><input
                 type="email"
                 name="email"
+                onChange={(e) => handleInputChange(e)}
                 value={formObject.email}
                 placeholder="name@company.com" /></td>
             </tr>
@@ -103,6 +119,7 @@ export function App(params) {
               <td><input
                 type="text"
                 name="password"
+                onChange={(e) => handleInputChange(e)}
                 value={formObject.password}
                 placeholder="password" /></td>
             </tr>
