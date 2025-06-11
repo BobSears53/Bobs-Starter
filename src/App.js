@@ -47,18 +47,29 @@ const handleInputChange = function (event) {
   }
 
   let onDeleteClick = function () {
-    log("in onDeleteClick()");
+    if(formObject.id >= 0){
+        deleteById(formObject.id);
+    }
+        setFormObject(blankCustomer); 
+        log("in onDeleteClick()");
+}
+
+ /* let onSaveClick = function () {
+     log("in onSaveClick()")
+
   }
+*/
 
   let onSaveClick = function () {
-     log("in onSaveClick()");
-    if(formObject.id >= 0){
-      deleteById(formObject.id);
+    if (mode === 'Add') {
+    post(formObject);
     }
-      setFormObject(blankCustomer);
+    if (mode === 'Update') {
+    put(formObject.id, formObject);
     }
-   
-  
+    setFormObject(blankCustomer);
+}
+
 
   return (
     <div>
